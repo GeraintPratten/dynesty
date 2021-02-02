@@ -146,6 +146,8 @@ def sample_rwalk(args):
 
     """
 
+    accepted_us, accepted_vs, accepted_logls = [], [], []
+
     # Unzipping.
     (u, loglstar, axes, scale,
      prior_transform, loglikelihood, kwargs) = args
@@ -228,6 +230,9 @@ def sample_rwalk(args):
             v = v_prop
             logl = logl_prop
             accept += 1
+            accepted_us.append(u_prop)
+            accepted_vs.append(v_prop)
+            accepted_logls.append(logl_prop)
         else:
             reject += 1
         nc += 1
@@ -243,7 +248,10 @@ def sample_rwalk(args):
 
     blob = {'accept': accept, 'reject': reject, 'fail': nfail, 'scale': scale}
 
-    return u, v, logl, ncall, blob
+    ncalls = [ncall] * accept
+    blobs = [blob] * accept
+
+    return accepted_us, accepted_vs, accepted_logls, ncalls, blobs
 
 
 def sample_rstagger(args):
