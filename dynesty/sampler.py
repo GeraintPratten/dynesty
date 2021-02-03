@@ -335,13 +335,13 @@ class Sampler(object):
         while self.nqueue < self.queue_size:
             if self._beyond_unit_bound(loglstar):
                 # Propose points using the provided sampling/bounding options.
-                point, axes  = self.propose_point()
+                point, axes = self.propose_point()
                 evolve_point = self.evolve_point
                 RWALK_CALLED = True
             else:
                 # Propose/evaluate points directly from the unit cube.
                 point = self.rstate.rand(self.npdim)
-                axes  = np.identity(self.npdim)
+                axes = np.identity(self.npdim)
                 evolve_point = sample_unif
                 RWALK_CALLED = False
             point_queue.append(point)
